@@ -354,6 +354,334 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hustxxj.github.io/2019/07/08/搭建第一个神经网络并可视化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuxuejie">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myavatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江江的小跟班.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/08/搭建第一个神经网络并可视化/" class="post-title-link" itemprop="url">搭建第一个神经网络并可视化</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-08 17:26:37 / 修改时间：18:17:00" itemprop="dateCreated datePublished" datetime="2019-07-08T17:26:37+08:00">2019-07-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="搭建第一个神经网络并可视化"><a href="#搭建第一个神经网络并可视化" class="headerlink" title="搭建第一个神经网络并可视化"></a><strong>搭建第一个神经网络并可视化</strong></h1><hr>
+<p><em>神经网络根据给出的训练数据自动拟合出一条二元函数曲线</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">def add_layer(inputs,in_size,out_size,activation_function=None):</span><br><span class="line">	Weights=tf.Variable(tf.random_normal([in_size,out_size]))</span><br><span class="line">	bias=tf.Variable(tf.zeros([1,out_size])+0.1)</span><br><span class="line">	Wx_plus_b=tf.matmul(inputs,Weights)+bias</span><br><span class="line">	if activation_function is None:</span><br><span class="line">		outputs=Wx_plus_b</span><br><span class="line">	else:</span><br><span class="line">		outputs=activation_function(Wx_plus_b)</span><br><span class="line">	return outputs</span><br><span class="line"></span><br><span class="line">#自己产生一个数据集</span><br><span class="line">x_data=np.linspace(-1,1,300)[:,np.newaxis]</span><br><span class="line">noise=np.random.normal(0,0.05,x_data.shape)</span><br><span class="line">y_data=np.square(x_data)-0.5+noise</span><br><span class="line"></span><br><span class="line">#构建神经网络层,共有三层结构（输入层（1个节点），一层隐藏层（10个节点），输出层（1个节点））</span><br><span class="line">xs=tf.placeholder(tf.float32,[None,1])</span><br><span class="line">ys=tf.placeholder(tf.float32,[None,1])</span><br><span class="line">layer1=add_layer(xs,1,10,activation_function=tf.nn.relu)#隐藏层</span><br><span class="line">prediction=add_layer(layer1,10,1,activation_function=None)#输出层</span><br><span class="line"></span><br><span class="line">#计算预测值与真实值之间的误差(loss)</span><br><span class="line">loss=tf.reduce_mean(tf.reduce_sum(tf.square(ys-prediction),reduction_indices=[1]))</span><br><span class="line">#用GradientDescentOptimizer,以0.1的速率更新loss使得loss更小</span><br><span class="line">train_step=tf.train.GradientDescentOptimizer(0.1).minimize(loss)</span><br><span class="line"></span><br><span class="line">#用于结果可视化</span><br><span class="line">fig=plt.figure()</span><br><span class="line">ax=fig.add_subplot(1,1,1)</span><br><span class="line">ax.scatter(x_data,y_data)</span><br><span class="line">plt.ion()</span><br><span class="line">plt.show()</span><br><span class="line">#用于结果可视化</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#建立session,初始化参数</span><br><span class="line">init=tf.initialize_all_variables()</span><br><span class="line">sess=tf.Session()</span><br><span class="line">sess.run(init)</span><br><span class="line">#开始训练</span><br><span class="line">for i in range(1000):</span><br><span class="line">	sess.run(train_step,feed_dict=&#123;xs:x_data,ys:y_data&#125;)</span><br><span class="line">	if i%50==0:</span><br><span class="line">		print(sess.run(loss,feed_dict=&#123;xs:x_data,ys:y_data&#125;))</span><br><span class="line">		#可视化预测数据</span><br><span class="line">		try:</span><br><span class="line">			ax.lines.remove(lines[0])</span><br><span class="line">		except Exception:</span><br><span class="line">			pass</span><br><span class="line">		prediction_value=sess.run(prediction,feed_dict=&#123;xs:x_data&#125;)</span><br><span class="line">		lines=ax.plot(x_data,prediction_value,&apos;r-&apos;,lw=5)</span><br><span class="line">		plt.pause(0.1)</span><br></pre></td></tr></table></figure>
+<p>[训练loss及可视化结果] (<a href="https://www.bilibili.com/video/av58349016" target="_blank" rel="noopener">https://www.bilibili.com/video/av58349016</a>)</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hustxxj.github.io/2019/07/08/TensorFlow初探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuxuejie">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myavatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江江的小跟班.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/08/TensorFlow初探/" class="post-title-link" itemprop="url">TensorFlow初探</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-08 17:16:45 / 修改时间：17:24:30" itemprop="dateCreated datePublished" datetime="2019-07-08T17:16:45+08:00">2019-07-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TensorFlow初探"><a href="#TensorFlow初探" class="headerlink" title="TensorFlow初探"></a><strong>TensorFlow初探</strong></h1><hr>
+<h2 id="第一个TensorFlow例子"><a href="#第一个TensorFlow例子" class="headerlink" title="第一个TensorFlow例子"></a><strong>第一个TensorFlow例子</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">#create data</span><br><span class="line">x_data=np.random.rand(100).astype(np.float32)</span><br><span class="line">y_data=x_data*0.1+0.3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#create tensorflow structure start</span><br><span class="line">Weights=tf.Variable(tf.random_uniform([1],-1.0,1.0))</span><br><span class="line">bias=tf.Variable(tf.zeros([1]))</span><br><span class="line"></span><br><span class="line">y=Weights*x_data+bias</span><br><span class="line"></span><br><span class="line">loss=tf.reduce_mean(tf.square(y-y_data))</span><br><span class="line">optimizer=tf.train.GradientDescentOptimizer(0.5)</span><br><span class="line">train=optimizer.minimize(loss)</span><br><span class="line"></span><br><span class="line">init=tf.initialize_all_variables()</span><br><span class="line"></span><br><span class="line">#激活神经网络</span><br><span class="line">sess=tf.Session()</span><br><span class="line">sess.run(init)</span><br><span class="line"></span><br><span class="line">for step in range(201):</span><br><span class="line">	sess.run(train)</span><br><span class="line">	if step%20==0:</span><br><span class="line">		print(step,sess.run(Weights),sess.run(bias))</span><br></pre></td></tr></table></figure>
+<h2 id="了解Session"><a href="#了解Session" class="headerlink" title="了解Session"></a><strong>了解Session</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"></span><br><span class="line">matrix1=tf.constant([[3,3]])</span><br><span class="line">matrix2=tf.constant([[2],</span><br><span class="line">	                 [2]])</span><br><span class="line">product=tf.matmul(matrix1,matrix2)</span><br><span class="line"></span><br><span class="line">#方法一</span><br><span class="line">sess=tf.Session()</span><br><span class="line">result=sess.run(product)</span><br><span class="line">print(&apos;result:&apos;,result)</span><br><span class="line">sess.close()</span><br><span class="line"></span><br><span class="line">#方法二</span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">	result2=sess.run(product)</span><br><span class="line">	print(&apos;result2:&apos;,result2)</span><br></pre></td></tr></table></figure>
+<h2 id="Variable变量"><a href="#Variable变量" class="headerlink" title="Variable变量"></a><strong>Variable变量</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"></span><br><span class="line">state=tf.Variable(0,name=&quot;counter&quot;) #定义一个变量&quot;state&quot;</span><br><span class="line">#print(state.name)</span><br><span class="line">one=tf.constant(1)  #定义一个常量“1”</span><br><span class="line"></span><br><span class="line">new_value=tf.add(state,one)</span><br><span class="line">update=tf.assign(state,new_value) #将“new_value”赋值给“state”</span><br><span class="line"></span><br><span class="line">init=tf.initialize_all_variables()</span><br><span class="line"></span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">	sess.run(init)</span><br><span class="line">	for _ in range(3):</span><br><span class="line">		sess.run(update)</span><br><span class="line">		print(sess.run(state))</span><br></pre></td></tr></table></figure>
+<h2 id="了解PlaceHold"><a href="#了解PlaceHold" class="headerlink" title="了解PlaceHold"></a><strong>了解PlaceHold</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"></span><br><span class="line">input1=tf.placeholder(tf.float32)</span><br><span class="line">input2=tf.placeholder(tf.float32)</span><br><span class="line"></span><br><span class="line">output=tf.add(input1,input2)</span><br><span class="line"></span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">	print(sess.run(output,feed_dict=&#123;input1:[7.],input2:[3.]&#125;))</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://hustxxj.github.io/2019/07/08/好了歌注/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -399,7 +727,7 @@
                 
               
 
-              <time title="创建时间：2019-07-08 16:57:59 / 修改时间：17:04:01" itemprop="dateCreated datePublished" datetime="2019-07-08T16:57:59+08:00">2019-07-08</time>
+              <time title="创建时间：2019-07-08 16:57:59 / 修改时间：17:20:37" itemprop="dateCreated datePublished" datetime="2019-07-08T16:57:59+08:00">2019-07-08</time>
             
 
             
@@ -564,7 +892,7 @@
                 
               
 
-              <time title="创建时间：2019-07-08 15:10:30 / 修改时间：16:21:52" itemprop="dateCreated datePublished" datetime="2019-07-08T15:10:30+08:00">2019-07-08</time>
+              <time title="创建时间：2019-07-08 15:10:30 / 修改时间：17:20:42" itemprop="dateCreated datePublished" datetime="2019-07-08T15:10:30+08:00">2019-07-08</time>
             
 
             
@@ -740,7 +1068,7 @@
                 
               
 
-              <time title="创建时间：2019-07-08 10:42:08 / 修改时间：16:21:48" itemprop="dateCreated datePublished" datetime="2019-07-08T10:42:08+08:00">2019-07-08</time>
+              <time title="创建时间：2019-07-08 10:42:08 / 修改时间：17:21:08" itemprop="dateCreated datePublished" datetime="2019-07-08T10:42:08+08:00">2019-07-08</time>
             
 
             
@@ -900,7 +1228,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -942,7 +1270,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
