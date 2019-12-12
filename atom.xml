@@ -149,30 +149,4 @@
     
   </entry>
   
-  <entry>
-    <title>hexo使用练习</title>
-    <link href="http://hustxxj.github.io/2019/07/08/Hexo%E4%BD%BF%E7%94%A8%E7%BB%83%E4%B9%A0/"/>
-    <id>http://hustxxj.github.io/2019/07/08/Hexo%E4%BD%BF%E7%94%A8%E7%BB%83%E4%B9%A0/</id>
-    <published>2019-07-08T02:42:08.000Z</published>
-    <updated>2019-07-08T09:21:08.164Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="第一篇文章"><a href="#第一篇文章" class="headerlink" title="第一篇文章"></a>第一篇文章</h2><h3 id="这是三级标题"><a href="#这是三级标题" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><ul><li>列表1</li><li>列表2<br> a 子列表1<br> b 子列表2</li><li>列表3</li></ul><hr><hr><hr><p> <a href="https://space.bilibili.com/19269849/favlist" target="_blank" rel="noopener">xuxuejie:bilibili</a></p><p> <img src="/img/WeChat.jpg" alt="WeChat"></p><p> <em>设置斜体字</em><br> <strong>设置字体加粗</strong></p><p> <code>添加单行代码</code></p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">添加多行代码</span><br></pre></td></tr></table></figure><blockquote><p>内容引用</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;一级标题&quot;&gt;&lt;a href=&quot;#一级标题&quot; class=&quot;headerlink&quot; title=&quot;一级标题&quot;&gt;&lt;/a&gt;一级标题&lt;/h1&gt;&lt;h2 id=&quot;第一篇文章&quot;&gt;&lt;a href=&quot;#第一篇文章&quot; class=&quot;headerlink&quot; title=&quot;第一篇文章&quot;&gt;
-      
-    
-    </summary>
-    
-    
-      <category term="学习" scheme="http://hustxxj.github.io/categories/%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Hexo使用" scheme="http://hustxxj.github.io/tags/Hexo%E4%BD%BF%E7%94%A8/"/>
-    
-  </entry>
-  
 </feed>
