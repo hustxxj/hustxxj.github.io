@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="健身房人脸识别系统 该人脸识别系统是健身房管理系统的一个子模块，主要负责对健身房来访客户进行人脸识别，将识别到的人脸与本地人脸库进行比对进而控制闸机开关。同时在前台显示客户的一系列信息，包括当前会员卡状态等等。该子模块主要涉及四个部分：  安卓人脸识别端 本地服务器端 前台工作台 闸机控制   安卓人脸识别端 本模块是用于人脸的采集和上传，是用一个普通的安卓平板实现的。关于人脸识别的实现方法，是调">
+<meta name="keywords" content="健身房">
+<meta property="og:type" content="article">
+<meta property="og:title" content="健身房人脸识别系统">
+<meta property="og:url" content="http://hustxxj.github.io/2019/07/08/健身房人脸识别系统/index.html">
+<meta property="og:site_name" content="江江的小跟班.">
+<meta property="og:description" content="健身房人脸识别系统 该人脸识别系统是健身房管理系统的一个子模块，主要负责对健身房来访客户进行人脸识别，将识别到的人脸与本地人脸库进行比对进而控制闸机开关。同时在前台显示客户的一系列信息，包括当前会员卡状态等等。该子模块主要涉及四个部分：  安卓人脸识别端 本地服务器端 前台工作台 闸机控制   安卓人脸识别端 本模块是用于人脸的采集和上传，是用一个普通的安卓平板实现的。关于人脸识别的实现方法，是调">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-12T03:28:44.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="健身房人脸识别系统">
+<meta name="twitter:description" content="健身房人脸识别系统 该人脸识别系统是健身房管理系统的一个子模块，主要负责对健身房来访客户进行人脸识别，将识别到的人脸与本地人脸库进行比对进而控制闸机开关。同时在前台显示客户的一系列信息，包括当前会员卡状态等等。该子模块主要涉及四个部分：  安卓人脸识别端 本地服务器端 前台工作台 闸机控制   安卓人脸识别端 本模块是用于人脸的采集和上传，是用一个普通的安卓平板实现的。关于人脸识别的实现方法，是调">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="江江的小跟班." type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://hustxxj.github.io/2019/07/08/健身房人脸识别系统/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>健身房人脸识别系统 | 江江的小跟班.</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">江江的小跟班.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hustxxj.github.io/2019/07/08/健身房人脸识别系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuxuejie">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myavatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江江的小跟班.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">健身房人脸识别系统
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-08 15:10:30" itemprop="dateCreated datePublished" datetime="2019-07-08T15:10:30+08:00">2019-07-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-12 11:28:44" itemprop="dateModified" datetime="2019-07-12T11:28:44+08:00">2019-07-12</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/项目/" itemprop="url" rel="index"><span itemprop="name">项目</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="健身房人脸识别系统"><a href="#健身房人脸识别系统" class="headerlink" title="健身房人脸识别系统"></a><strong>健身房人脸识别系统</strong></h1><hr>
+<p>该人脸识别系统是健身房管理系统的一个子模块，主要负责对健身房来访客户进行人脸识别，将识别到的人脸与本地人脸库进行比对进而控制闸机开关。同时在前台显示客户的一系列信息，包括当前会员卡状态等等。<br>该子模块主要涉及四个部分：</p>
+<ul>
+<li><strong>安卓人脸识别端</strong></li>
+<li><strong>本地服务器端</strong></li>
+<li><strong>前台工作台</strong></li>
+<li><strong>闸机控制</strong></li>
+</ul>
+<hr>
+<h2 id="安卓人脸识别端"><a href="#安卓人脸识别端" class="headerlink" title="安卓人脸识别端"></a><strong>安卓人脸识别端</strong></h2><hr>
+<p>本模块是用于人脸的采集和上传，是用一个普通的安卓平板实现的。关于人脸识别的实现方法，是调用了百度云的人脸识别离线SDK。这个人脸识别的离线SDK是需要收费的，好像是299可以购买永久使用权（只能与一个设备绑定）。由于实验室经费有限，我们是申请的试用，如果试用期到了可以再申请延期。（已经申请延期三次了，目前为止白嫖了一年。）<br>[百度云人脸识别]（ <a href="https://cloud.baidu.com/product/face" target="_blank" rel="noopener">https://cloud.baidu.com/product/face</a> ）<br>这一部分代码是用Java写的，开发环境是用的AndroidStudio，程序的基本框架使用了官方给的一个Demo,然后在里面修改了一下界面并且添加了通信模块用于将采集到的人脸上传到本地服务器。这里附上安卓端向C++服务器上传照片的代码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line">private void saveFace(FaceInfo faceInfo, ImageFrame imageFrame) &#123;</span><br><span class="line">       final Bitmap bitmap = FaceCropper.getFace(imageFrame.getArgb(), faceInfo, imageFrame.getWidth());</span><br><span class="line">       if (source == RegActivity.SOURCE_REG) &#123;</span><br><span class="line">           // 注册来源保存到注册人脸目录</span><br><span class="line">           File faceDir = FileUitls.getFaceDirectory();</span><br><span class="line">           if (faceDir != null) &#123;</span><br><span class="line">               String imageName = UUID.randomUUID().toString();</span><br><span class="line">               File file = new File(faceDir, imageName);</span><br><span class="line">               // 压缩人脸图片至300 * 300，减少网络传输时间</span><br><span class="line">               ImageUtils.resize(bitmap, file, 300, 300);</span><br><span class="line">               Intent intent = new Intent();</span><br><span class="line">               intent.putExtra(&quot;file_path&quot;, file.getAbsolutePath());</span><br><span class="line">               setResult(Activity.RESULT_OK, intent);</span><br><span class="line">               finish();</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               toast(&quot;注册人脸目录未找到&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           try &#123;</span><br><span class="line">               // 其他来源保存到临时目录</span><br><span class="line">               final File file = File.createTempFile(UUID.randomUUID().toString() + &quot;&quot;, &quot;.jpg&quot;);</span><br><span class="line">               // 人脸识别不需要整张图片。可以对人脸区别进行裁剪。减少流量消耗和，网络传输占用的时间消耗。</span><br><span class="line">               ImageUtils.resize(bitmap, file, 300, 300);</span><br><span class="line">               Intent intent = new Intent();</span><br><span class="line">               intent.putExtra(&quot;file_path&quot;, file.getAbsolutePath());</span><br><span class="line">               setResult(Activity.RESULT_OK, intent);</span><br><span class="line">               String picPath = intent.getStringExtra(&quot;file_path&quot;);</span><br><span class="line">               Bitmap bitmap1 = BitmapFactory.decodeFile(picPath);</span><br><span class="line"></span><br><span class="line">               try &#123;</span><br><span class="line">                   faceDetectManager.setUseDetect(false);</span><br><span class="line">                   // 创建文件流，指向该路径，文件名叫做fileName</span><br><span class="line">                   File file1 = new File(FILE_PATH, newName);</span><br><span class="line">                   // file其实是图片，它的父级File是文件夹，判断一下文件夹是否存在，如果不存在，创建文件夹</span><br><span class="line">                   File fileParent = file1.getParentFile();</span><br><span class="line">                   if (!fileParent.exists()) &#123;</span><br><span class="line">                       // 文件夹不存在</span><br><span class="line">                       fileParent.mkdirs();// 创建文件夹</span><br><span class="line">                   &#125;</span><br><span class="line">                   // 将图片保存到本地</span><br><span class="line">                   bitmap1.compress(Bitmap.CompressFormat.JPEG, 100,</span><br><span class="line">                           new FileOutputStream(file1));</span><br><span class="line">               &#125; catch (Exception e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">           &#125; catch (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private String filter(FaceInfo faceInfo, ImageFrame imageFrame) &#123;</span><br><span class="line"></span><br><span class="line">       String tip = &quot;&quot;;</span><br><span class="line">       if (faceInfo.mConf &lt; 0.8) &#123;</span><br><span class="line">           tip = &quot;人脸置信度太低&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       float[] headPose = faceInfo.headPose;</span><br><span class="line">       if (Math.abs(headPose[0]) &gt; 20 || Math.abs(headPose[1]) &gt; 20 || Math.abs(headPose[2]) &gt; 20) &#123;</span><br><span class="line">           tip = &quot;人脸置角度太大，请正对屏幕&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       int width = imageFrame.getWidth();</span><br><span class="line">       int height = imageFrame.getHeight();</span><br><span class="line">       // 判断人脸大小，若人脸超过屏幕二分一，则提示文案“人脸离手机太近，请调整与手机的距离”；</span><br><span class="line">       // 若人脸小于屏幕三分一，则提示“人脸离手机太远，请调整与手机的距离”</span><br><span class="line">       float ratio = (float) faceInfo.mWidth / (float) height;</span><br><span class="line">       Log.i(&quot;liveness_ratio&quot;, &quot;ratio=&quot; + ratio);</span><br><span class="line">       if (ratio &gt; 0.9) &#123;</span><br><span class="line">           tip = &quot;人脸离屏幕太近，请调整与屏幕的距离&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125; else if (ratio &lt; 0.1) &#123;</span><br><span class="line">           tip = &quot;人脸离屏幕太远，请调整与屏幕的距离&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125; else if (faceInfo.mCenter_x &gt; width * 3 / 4 ) &#123;</span><br><span class="line">           tip = &quot;人脸在屏幕中太靠右&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125; else if (faceInfo.mCenter_x &lt; width / 4 ) &#123;</span><br><span class="line">           tip = &quot;人脸在屏幕中太靠左&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125; else if (faceInfo.mCenter_y &gt; height * 3 / 4 ) &#123;</span><br><span class="line">           tip = &quot;人脸在屏幕中太靠下&quot; ;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125; else if (faceInfo.mCenter_x &lt; height / 4 ) &#123;</span><br><span class="line">           tip = &quot;人脸在屏幕中太靠上&quot;;</span><br><span class="line">           return tip;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       int liveType = PreferencesUtil.getInt(LivenessSettingActivity.TYPE_LIVENSS, LivenessSettingActivity</span><br><span class="line">               .TYPE_NO_LIVENSS);</span><br><span class="line">       if (liveType ==  LivenessSettingActivity.TYPE_NO_LIVENSS) &#123;</span><br><span class="line">           saveFace(faceInfo, imageFrame);</span><br><span class="line">           connection Connection=new connection();</span><br><span class="line">           Connection.start();</span><br><span class="line">           try  &#123;</span><br><span class="line">               Thread.currentThread().sleep(2000);</span><br><span class="line">           &#125;  catch  ( InterruptedException e) &#123;</span><br><span class="line">               e.printStackTrace () ;</span><br><span class="line">           &#125;</span><br><span class="line">           System.out.println(&quot;人脸得分为：&quot; + SendFileThread.feedBackScore);</span><br><span class="line">           faceDetectManager.setUseDetect(true);</span><br><span class="line">           if (SendFileThread.feedBackScore &gt;= 90)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;阻断五秒&quot;);</span><br><span class="line">               try &#123;</span><br><span class="line">                   Thread.currentThread().sleep(count1);</span><br><span class="line">                   &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           else if (SendFileThread.feedBackScore &lt; 90)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;阻断一秒&quot;);</span><br><span class="line">               try &#123;</span><br><span class="line">                       Thread.currentThread().sleep(count2);</span><br><span class="line">                   &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           File file2 = new File(FILE_PATH, newName);</span><br><span class="line">           file2.delete();</span><br><span class="line">       &#125; else if (liveType ==  LivenessSettingActivity.TYPE_RGB_LIVENSS) &#123;</span><br><span class="line"></span><br><span class="line">           if (rgbLiveness(imageFrame, faceInfo) &gt; 0.9) &#123;</span><br><span class="line">               saveFace(faceInfo, imageFrame);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               toast(&quot;rgb活体分数过低&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       return tip;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"> public class SendFileThread extends Thread implements Runnable &#123;</span><br><span class="line">    static float feedBackScore;</span><br><span class="line">    private Socket socket;</span><br><span class="line">    private NetDataCommand dataCommand;</span><br><span class="line">    private NetDataTypeTransform transform = new NetDataTypeTransform();</span><br><span class="line">    public SendFileThread(Socket socket) &#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            DataInputStream fromServerStream = new DataInputStream(socket.getInputStream());</span><br><span class="line">            DataOutputStream toServerStream = new DataOutputStream(socket.getOutputStream());</span><br><span class="line">//初始化文件信息</span><br><span class="line">            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + &quot;/cache/pics/12345678.jpg&quot;);</span><br><span class="line">            FileInputStream fileInputStream = new FileInputStream(file);</span><br><span class="line">            int fileLen = (int)file.length();</span><br><span class="line">            System.out.print(file.length());</span><br><span class="line">            System.out.print(&quot;\r\n&quot;);</span><br><span class="line">//1.发送文件的长度</span><br><span class="line">            toServerStream.write(transform.IntToByteArray(fileLen));</span><br><span class="line">            toServerStream.flush();</span><br><span class="line">//2.确认服务器端已经做好准备</span><br><span class="line">            Boolean isOk;</span><br><span class="line">            isOk = fromServerStream.readBoolean();</span><br><span class="line">            System.out.println(isOk);</span><br><span class="line">            byte[] toServerByte = new byte[4096];</span><br><span class="line">            int len;//每次发送长度</span><br><span class="line">            long sendLen=0;//已经发送的总长度</span><br><span class="line">            while((len = fileInputStream.read(toServerByte))&gt;0)&#123;</span><br><span class="line">                toServerStream.write(toServerByte,0,len);</span><br><span class="line">                toServerStream.flush();</span><br><span class="line">                sendLen+=len;</span><br><span class="line">                System.out.println(&quot;len = &quot;+len);</span><br><span class="line">                System.out.println(&quot;发送进度：&quot;+sendLen*1.0/fileLen*1.0*100+&quot;%&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            sleep(10);</span><br><span class="line">            if (sendLen == fileLen) &#123;</span><br><span class="line">                System.out.println(&quot;success&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;send over!&quot;);</span><br><span class="line">            byte buffer[] = new byte[536];</span><br><span class="line">            while (fromServerStream.read(buffer, 0, 536) &gt; -1)</span><br><span class="line">            &#123;</span><br><span class="line">                String mm=new String(buffer);</span><br><span class="line">                String score=mm.substring(0,5);</span><br><span class="line">                feedBackScore=Float.parseFloat(score);</span><br><span class="line">                System.out.println(feedBackScore);</span><br><span class="line">                System.out.println(&quot;接收成功！&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">// TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> public class connection extends Thread implements Runnable &#123;</span><br><span class="line">    private static DataOutputStream toServerStream;</span><br><span class="line">    private static NetDataCommand dataCommand;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            // Socket socket = new Socket(&quot;IP地址&quot;, 端口号);</span><br><span class="line">            Socket socket = new Socket(&quot;IP地址&quot;, 端口号);</span><br><span class="line">            toServerStream = new DataOutputStream(socket.getOutputStream());</span><br><span class="line">//发送要发送文件的指令</span><br><span class="line">            int id = 1;</span><br><span class="line">            String tempStr = &quot;12345678.jpg&quot;;</span><br><span class="line">            dataCommand = new NetDataCommand(id, tempStr);</span><br><span class="line">            toServerStream.write(dataCommand.getByteArrayData());</span><br><span class="line">            toServerStream.flush();</span><br><span class="line">//启动发送文件线程</span><br><span class="line">            SendFileThread sendFileThread = new SendFileThread(socket);</span><br><span class="line">            sendFileThread.start();</span><br><span class="line">            try  &#123;</span><br><span class="line">                sendFileThread.join();</span><br><span class="line">            &#125;  catch  ( InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace () ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (UnknownHostException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="本地服务器端"><a href="#本地服务器端" class="headerlink" title="本地服务器端"></a><strong>本地服务器端</strong></h2><hr>
+<p>本地服务器主要有以下几个功能：</p>
+<ul>
+<li><em>人脸注册</em></li>
+<li><em>人脸识别及信息转发</em></li>
+</ul>
+<h3 id="1-人脸注册"><a href="#1-人脸注册" class="headerlink" title="1. 人脸注册"></a>1. 人脸注册</h3><p>百度给的离线人脸识别SDK(Windows)中提供了批量人脸注册的接口，将所有已有会员的人脸照片存放在指定文件夹中然后运行该函数就可以实现人脸注册：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void test_face_manager(BaiduFaceApi* api)</span><br><span class="line">&#123;</span><br><span class="line">    Manager *mgrptr = new Manager();</span><br><span class="line">    // 批量注册</span><br><span class="line">    mgrptr-&gt;batch_user_add(api, &quot;d:\\FaceStock&quot;);</span><br><span class="line">    delete mgrptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-人脸识别及信息转发"><a href="#2-人脸识别及信息转发" class="headerlink" title="2. 人脸识别及信息转发"></a>2. 人脸识别及信息转发</h3><p>该部分是服务器主要要完成的功能，即接收从平板传递过来的人脸，在服务器进行人脸识别后解析出该人脸对应的会员号，然后将会员号发送给前台控制台。其中涉及到两部分的通信，一个是平板和本地服务器的通信，另一个是本地服务器和前台控制台的通信。</p>
+<p>平板和本地服务器通信（其中为了防止平板端向服务器发送人脸的频率太高造成服务器崩溃，引入了Mutex线程锁机制，来保护每一个发送人脸的线程独立）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line">void InitSocket() &#123;</span><br><span class="line">    SOCKET serverSocket;</span><br><span class="line">    SOCKET listenSocket;</span><br><span class="line">    sockaddr_in serveraddr = initSockaddr_in();</span><br><span class="line">    sockaddr_in clientaddr;</span><br><span class="line">    //创建socket</span><br><span class="line">    serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    //进行绑定</span><br><span class="line">    ::bind(serverSocket, (sockaddr*)&amp;serveraddr, sizeof(serveraddr));</span><br><span class="line">    //进行监听</span><br><span class="line">    listen(serverSocket, 5);</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; &quot;server start&quot; &lt;&lt; endl;</span><br><span class="line">    int len = sizeof(clientaddr);</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        if (listenSocket = accept(serverSocket, (sockaddr*)&amp;clientaddr, &amp;len));</span><br><span class="line">        &#123;</span><br><span class="line">            //启动会话线程</span><br><span class="line">            CreateThread(NULL, NULL, SListen, (LPVOID)listenSocket, NULL, NULL);</span><br><span class="line">            //添加线程锁</span><br><span class="line">            DWORD dwRet = WaitForSingleObject(CreateThread, INFINITE);</span><br><span class="line">            if (dwRet == WAIT_TIMEOUT)</span><br><span class="line">            &#123;</span><br><span class="line">                TerminateThread(CreateThread, 0);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            cout &lt;&lt; &quot;CreateThread is start&quot; &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sockaddr_in initSockaddr_in() &#123;</span><br><span class="line">    sockaddr_in sockaddr_in;</span><br><span class="line">    int port = 8888;</span><br><span class="line">    sockaddr_in.sin_family = AF_INET;</span><br><span class="line">    sockaddr_in.sin_port = htons(port);//主机字节序转网络字节序</span><br><span class="line">    sockaddr_in.sin_addr.S_un.S_addr = htonl(INADDR_ANY);</span><br><span class="line">    return sockaddr_in;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DWORD WINAPI SListen(LPVOID lparam) &#123;</span><br><span class="line">    SOCKET socket = (SOCKET)lparam;</span><br><span class="line">    COMMAND command;</span><br><span class="line">    control = 1;</span><br><span class="line">    while (control == 1) &#123;</span><br><span class="line">        memset(&amp;command, 0, sizeof(command));</span><br><span class="line">        int ret;</span><br><span class="line">        ret = recv(socket, (char*)&amp;command, sizeof(command), 0);</span><br><span class="line">        if (ret == SOCKET_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; &quot;接收命令错误或溢出！&quot; &lt;&lt; endl;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            cout &lt;&lt; &quot;接收到命令：&quot; &lt;&lt; command.ID &lt;&lt; endl;</span><br><span class="line">            switch (command.ID)</span><br><span class="line">            &#123;</span><br><span class="line">            case FileInfo:</span><br><span class="line">                break;</span><br><span class="line">            case SendFile:</span><br><span class="line">            &#123;</span><br><span class="line">                char* str = (char*)command.lparam;</span><br><span class="line">                cout &lt;&lt; &quot;原文件名&quot; &lt;&lt; str &lt;&lt; endl;</span><br><span class="line">                //开始接收文件</span><br><span class="line">                recvFile(socket);</span><br><span class="line">                //发送人脸得分给平板端</span><br><span class="line">                char scores[20];</span><br><span class="line">                sprintf(scores, &quot;%f&quot;, score);</span><br><span class="line">                send(socket, scores, 200, NULL);</span><br><span class="line">                cout &lt;&lt; &quot;scores=&quot; &lt;&lt; scores &lt;&lt; endl;</span><br><span class="line">                //向客户端发送会员号</span><br><span class="line">                SendUserNumber();</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">            case StopSendFile:</span><br><span class="line">                break;</span><br><span class="line">            case SendString:</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void recvFile(SOCKET socket) &#123;</span><br><span class="line">    int ret;</span><br><span class="line">    char buffer[BUF_LEN];</span><br><span class="line">    //接收文件长度</span><br><span class="line">    long long fileLenght = 0;</span><br><span class="line">    cout &lt;&lt; fileLenght &lt;&lt; endl;</span><br><span class="line">    while (fileLenght == 0)</span><br><span class="line">    &#123;</span><br><span class="line">        ret = recv(socket, (char*)&amp;fileLenght, sizeof(fileLenght), 0);</span><br><span class="line">    &#125;</span><br><span class="line">    //  ret = recv(socket, (char*)&amp;fileLenght, sizeof(fileLenght), 0);</span><br><span class="line">    if (ret == SOCKET_ERROR)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;接收文件长度失败&quot; &lt;&lt; endl;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; fileLenght &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; &quot;文件长度为：&quot; &lt;&lt; fileLenght &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    //告诉客户端可以发送文件了</span><br><span class="line">    bool isOk = true;</span><br><span class="line">    //启动线程锁保护要传输的文件</span><br><span class="line">    CLock lock(g_Lock);</span><br><span class="line"></span><br><span class="line">    ret = send(socket, (char*)&amp;isOk, sizeof(isOk), 0);</span><br><span class="line">    if (ret == SOCKET_ERROR)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;发送信息失败！&quot; &lt;&lt; endl;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //文件路径</span><br><span class="line">    char fileName[20];</span><br><span class="line">    string filePath;</span><br><span class="line">    SYSTEMTIME sys;</span><br><span class="line">    GetLocalTime(&amp;sys);</span><br><span class="line">    sprintf_s(fileName, &quot;test.jpg&quot;/*, sys.wYear, sys.wMonth, sys.wDay, sys.wHour, sys.wMinute, sys.wSecond*/);</span><br><span class="line">    filePath = &quot;D:\\&quot;;</span><br><span class="line">    filePath += fileName;</span><br><span class="line">    //打开文件</span><br><span class="line">    ofstream outfile;</span><br><span class="line">    outfile.open(filePath, ios::out | ios::binary);//传输图片使用二进制格式打开</span><br><span class="line">    if (!outfile) &#123;</span><br><span class="line">        cout &lt;&lt; &quot;fail to open file!&quot; &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    long recvTotalLen = 0;</span><br><span class="line">    while (recvTotalLen &lt; fileLenght) &#123;</span><br><span class="line">        memset(buffer, 0, sizeof(buffer));</span><br><span class="line">        ret = recv(socket, buffer, sizeof(buffer), 0);</span><br><span class="line">        if (ret == SOCKET_ERROR)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; &quot;Error:&quot; &lt;&lt; GetLastError() &lt;&lt; endl;</span><br><span class="line">            cout &lt;&lt; &quot;socket fail when recv file fail !&quot; &lt;&lt; endl;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        outfile.write(buffer, ret);</span><br><span class="line">        recvTotalLen += ret;</span><br><span class="line">        cout &lt;&lt; &quot;已接收：&quot; &lt;&lt; (recvTotalLen*1.0 / fileLenght*1.0) * 100 &lt;&lt; &quot;%&quot; &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (recvTotalLen == fileLenght)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;recv file success !&quot; &lt;&lt; endl;</span><br><span class="line">        control = 2;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;recv file error !&quot; &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    outfile.close();</span><br><span class="line">   //获取会员号，显示对比结果</span><br><span class="line">    std::string res = api-&gt;identify(&quot;d:\\test.jpg&quot;, 2, &quot;test_group2&quot;, &quot;&quot;);</span><br><span class="line">    std::cout &lt;&lt; &quot;---identify res is:&quot; &lt;&lt; res &lt;&lt; std::endl;</span><br><span class="line">    char* id = parse_id(res);</span><br><span class="line">    score = parse_score(res);</span><br><span class="line">    memset(useNumber, &apos;\0&apos;, sizeof(useNumber));</span><br><span class="line">    for (int i = 0; i &lt; 12; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        useNumber[i] = id[i];</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; &quot;userNumber=&quot; &lt;&lt; useNumber &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务器与前台控制台通信，向前台控制台发送会员号：由于我人脸库中的人脸命名是以会员号命名的（会员号是健身房会员的唯一标识），所以在识别到人脸后，解析出该人脸对应的会员号(以JSON格式保存，需要对其进行解析)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">char * parse_id(const std::string &amp; res) //解析会员号</span><br><span class="line">&#123;</span><br><span class="line">    if (res.length() &gt; 0)</span><br><span class="line">    &#123;</span><br><span class="line">        // 若出现json::reader编译不过，请用下面代码</span><br><span class="line">        Json::Value root;</span><br><span class="line">        Json::Reader reader;</span><br><span class="line">        if (reader.parse(res, root))</span><br><span class="line">        &#123;</span><br><span class="line">            int err = root[&quot;errno&quot;].asInt();</span><br><span class="line">            if (err == 0)</span><br><span class="line">            &#123;</span><br><span class="line">                Json::Value result = root[&quot;data&quot;];</span><br><span class="line">                if (result.size() &gt; 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    std::string user_id = result[&quot;result&quot;][0][&quot;user_id&quot;].asString();</span><br><span class="line">                    const char *id = user_id.c_str();</span><br><span class="line">                    strcpy(user_ID, id);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                strcpy(user_ID, &quot;读取ID错误&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return user_ID;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">float parse_score(const std::string &amp; res)  //解析出人脸得分</span><br><span class="line">&#123;</span><br><span class="line">    float score = 0;</span><br><span class="line">    if (res.length() &gt; 0)</span><br><span class="line">    &#123;</span><br><span class="line">        // 若出现json::reader编译不过，请用下面代码</span><br><span class="line">        Json::Value root;</span><br><span class="line">        Json::Reader reader;</span><br><span class="line">        if (reader.parse(res, root))</span><br><span class="line">        &#123;</span><br><span class="line">            int err = root[&quot;errno&quot;].asInt();</span><br><span class="line">            if (err == 0)</span><br><span class="line">            &#123;</span><br><span class="line">                Json::Value result = root[&quot;data&quot;];</span><br><span class="line">                if (result.size() &gt; 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    //std::string sss = result[&quot;score&quot;].asString();</span><br><span class="line">                    std::string sss = result[&quot;result&quot;][0][&quot;score&quot;].asString();</span><br><span class="line">                    std::cout &lt;&lt; &quot;score=&quot; &lt;&lt; sss &lt;&lt; std::endl;</span><br><span class="line">                    score = atof(sss.c_str());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                score = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return score;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SendUserNumber()</span><br><span class="line">&#123;</span><br><span class="line">    WSADATA wsaData; </span><br><span class="line">    WSAStartup(MAKEWORD(2, 2), &amp;wsaData);//初始化 </span><br><span class="line">    SOCKET s = socket(PF_INET,SOCK_STREAM,IPPROTO_TCP); </span><br><span class="line">    sockaddr_in sockaddr; </span><br><span class="line">    sockaddr.sin_family = PF_INET; </span><br><span class="line">    sockaddr.sin_addr.S_un.S_addr = inet_addr(&quot;127.0.0.1&quot;); </span><br><span class="line">    sockaddr.sin_port = htons(234);//设置要连接的IP和端口 </span><br><span class="line">    connect(s,(SOCKADDR*)&amp;sockaddr,sizeof(SOCKADDR));//tcp连接 </span><br><span class="line">    if (score &gt; 90.0)</span><br><span class="line">    &#123;</span><br><span class="line">        send(s, useNumber, 200, NULL);</span><br><span class="line">        printf(useNumber);</span><br><span class="line">        cout &lt;&lt; &quot;人脸得分合格！&quot; &lt;&lt; endl;</span><br><span class="line">        cout &lt;&lt; &quot;会员号发送成功&quot; &lt;&lt; endl;</span><br><span class="line">        WSACleanup();</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; &quot;人脸得分太低！&quot; &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/健身房/" rel="tag"># 健身房</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/08/Hexo使用练习/" rel="next" title="hexo使用练习">
+                <i class="fa fa-chevron-left"></i> hexo使用练习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/08/TensorFlow初探/" rel="prev" title="TensorFlow初探">
+                TensorFlow初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myavatar.png" alt="Xuxuejie">
+            
+              <p class="site-author-name" itemprop="name">Xuxuejie</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#健身房人脸识别系统"><span class="nav-number">1.</span> <span class="nav-text">健身房人脸识别系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安卓人脸识别端"><span class="nav-number">1.1.</span> <span class="nav-text">安卓人脸识别端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地服务器端"><span class="nav-number">1.2.</span> <span class="nav-text">本地服务器端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-人脸注册"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 人脸注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-人脸识别及信息转发"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 人脸识别及信息转发</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuxuejie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
