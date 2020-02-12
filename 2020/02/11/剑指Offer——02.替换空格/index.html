@@ -96,15 +96,20 @@
 
 
 
-  <meta name="keywords" content="-剑指Offer">
+  <meta name="description" content="题目描述 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy则经过替换以后的字符串为We%20Are%20Happy  解题思路  遍历字符串，计算字符串中包含多少个空格 从最后一个字符开始依次赋值：判断该字符是否为空格，若不是空格，该字符的位置为i，之前包含n个空格，则其位置变为i+2n若是空格，则从i+2n往前依次填入‘0’‘2’‘%’   实现">
+<meta name="keywords" content="-剑指Offer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="02.替换空格">
 <meta property="og:url" content="http://hustxxj.github.io/2020/02/11/剑指Offer——02.替换空格/index.html">
 <meta property="og:site_name" content="江江的小跟班.">
+<meta property="og:description" content="题目描述 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy则经过替换以后的字符串为We%20Are%20Happy  解题思路  遍历字符串，计算字符串中包含多少个空格 从最后一个字符开始依次赋值：判断该字符是否为空格，若不是空格，该字符的位置为i，之前包含n个空格，则其位置变为i+2n若是空格，则从i+2n往前依次填入‘0’‘2’‘%’   实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-11T14:15:36.365Z">
+<meta property="og:image" content="http://hustxxj.github.io/2020/02/11/剑指Offer——02.替换空格/2_13.jpg">
+<meta property="og:updated_time" content="2020-02-12T14:44:18.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="02.替换空格">
+<meta name="twitter:description" content="题目描述 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy则经过替换以后的字符串为We%20Are%20Happy  解题思路  遍历字符串，计算字符串中包含多少个空格 从最后一个字符开始依次赋值：判断该字符是否为空格，若不是空格，该字符的位置为i，之前包含n个空格，则其位置变为i+2n若是空格，则从i+2n往前依次填入‘0’‘2’‘%’   实现">
+<meta name="twitter:image" content="http://hustxxj.github.io/2020/02/11/剑指Offer——02.替换空格/2_13.jpg">
 
 
 
@@ -400,12 +405,24 @@
                 
               
 
-              <time title="创建时间：2020-02-11 22:04:45 / 修改时间：22:15:36" itemprop="dateCreated datePublished" datetime="2020-02-11T22:04:45+08:00">2020-02-11</time>
+              <time title="创建时间：2020-02-11 22:04:45" itemprop="dateCreated datePublished" datetime="2020-02-11T22:04:45+08:00">2020-02-11</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-12 22:44:18" itemprop="dateModified" datetime="2020-02-12T22:44:18+08:00">2020-02-12</time>
               
             
           </span>
@@ -457,7 +474,36 @@
       
 
       
-        
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h1><hr>
+<p>请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy则经过替换以后的字符串为We%20Are%20Happy</p>
+<hr>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a><strong>解题思路</strong></h1><hr>
+<ol>
+<li>遍历字符串，计算字符串中包含多少个空格</li>
+<li>从最后一个字符开始依次赋值：判断该字符是否为空格，<br>若不是空格，该字符的位置为i，之前包含n个空格，则其位置变为i+2n<br>若是空格，则从i+2n往前依次填入‘0’‘2’‘%’</li>
+</ol>
+<hr>
+<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h1><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">	void replaceSpace(char *str,int length) &#123;</span><br><span class="line">        int count=0;</span><br><span class="line">        for(int i=0;i&lt;length;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(*(str+i) == &apos; &apos;)</span><br><span class="line">            &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i=length-1;i&gt;=0;i--)</span><br><span class="line">        &#123;</span><br><span class="line">            if(*(str+i) != &apos; &apos;)</span><br><span class="line">            &#123;</span><br><span class="line">                *(str+i+count*2)=*(str+i);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                *(str+i+count*2)=&apos;0&apos;;</span><br><span class="line">                *(str+i+count*2-1)=&apos;2&apos;;</span><br><span class="line">                *(str+i+count*2-2)=&apos;%&apos;;</span><br><span class="line">                count--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="LeetCode练习（字符串）：03-无重复字符的最长子串"><a href="#LeetCode练习（字符串）：03-无重复字符的最长子串" class="headerlink" title="LeetCode练习（字符串）：03.无重复字符的最长子串"></a><strong>LeetCode练习（字符串）：03.无重复字符的最长子串</strong></h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<p>给定一个字符串，请你找出其中不含有重复字符的最长子串的长度。<br>例如：<br>输入:”abcabcbb”,输出：3,解释：因为无重复字符的最长子串是”abc”,所以其长度为3<br>输入:”pwwkew”,输出：3</p>
+<hr>
+<h2 id="实现代码-1"><a href="#实现代码-1" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<p>思路：利用双指针求解,建立start和end两个指针,遍历从start到end，将所有字符都与end比较,如果都不相同,则value加1,end前移一位再次进行上述循环。直到end到达string队尾退出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class Solution</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int lengthOfLongestSubstring(string s)</span><br><span class="line">    &#123;</span><br><span class="line">        int len=s.size();</span><br><span class="line">        if(len==0)</span><br><span class="line">        &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;else if(len==1)</span><br><span class="line">        &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int end=1;</span><br><span class="line">        int start=0;</span><br><span class="line">        int res=1;</span><br><span class="line">        int value=1;</span><br><span class="line">        while(end&lt;len)</span><br><span class="line">        &#123;</span><br><span class="line">            char target=s[end];</span><br><span class="line">            for(int index=start;index&lt;end;index++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(s[index]==target)</span><br><span class="line">                &#123;</span><br><span class="line">                    start=index+1;</span><br><span class="line">                    value=end-start;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            end++;</span><br><span class="line">            value++;</span><br><span class="line">            res=(res&gt;=value)?res:value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="LeetCode练习（字符串）：13-罗马数字转整数"><a href="#LeetCode练习（字符串）：13-罗马数字转整数" class="headerlink" title="LeetCode练习（字符串）：13.罗马数字转整数"></a><strong>LeetCode练习（字符串）：13.罗马数字转整数</strong></h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<p><code><img src="/2020/02/11/剑指Offer——02.替换空格/2_13.jpg" title="示例图"></code></p>
+<hr>
+<h2 id="实现代码-2"><a href="#实现代码-2" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="LeetCode练习（数组）："><a href="#LeetCode练习（数组）：" class="headerlink" title="LeetCode练习（数组）："></a><strong>LeetCode练习（数组）：</strong></h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<hr>
+<h2 id="实现代码-3"><a href="#实现代码-3" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+
       
     </div>
 
@@ -545,8 +591,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -643,6 +698,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">3.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（字符串）：03-无重复字符的最长子串"><span class="nav-number">4.</span> <span class="nav-text">LeetCode练习（字符串）：03.无重复字符的最长子串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-1"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-1"><span class="nav-number">4.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（字符串）：13-罗马数字转整数"><span class="nav-number">5.</span> <span class="nav-text">LeetCode练习（字符串）：13.罗马数字转整数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-2"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-2"><span class="nav-number">5.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（数组）："><span class="nav-number">6.</span> <span class="nav-text">LeetCode练习（数组）：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-3"><span class="nav-number">6.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-3"><span class="nav-number">6.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
