@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="题目描述 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。  解题思路 本题的关键在于在中序遍历序列中找到根节点的位置，然后就可以根据根节点的位置再将其分为左子树和右子树，最后进行迭代。  实现代码 123456">
+<meta name="keywords" content="-剑指Offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剑指Offer——04.重建二叉树">
+<meta property="og:url" content="http://hustxxj.github.io/2020/02/14/剑指Offer——04.重建二叉树/index.html">
+<meta property="og:site_name" content="江江的小跟班.">
+<meta property="og:description" content="题目描述 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。  解题思路 本题的关键在于在中序遍历序列中找到根节点的位置，然后就可以根据根节点的位置再将其分为左子树和右子树，最后进行迭代。  实现代码 123456">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-16T12:48:32.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="剑指Offer——04.重建二叉树">
+<meta name="twitter:description" content="题目描述 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。  解题思路 本题的关键在于在中序遍历序列中找到根节点的位置，然后就可以根据根节点的位置再将其分为左子树和右子树，最后进行迭代。  实现代码 123456">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="江江的小跟班." type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://hustxxj.github.io/2020/02/14/剑指Offer——04.重建二叉树/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>剑指Offer——04.重建二叉树 | 江江的小跟班.</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">江江的小跟班.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hustxxj.github.io/2020/02/14/剑指Offer——04.重建二叉树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuxuejie">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/myavatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江江的小跟班.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">剑指Offer——04.重建二叉树
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-14 20:38:39" itemprop="dateCreated datePublished" datetime="2020-02-14T20:38:39+08:00">2020-02-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-16 20:48:32" itemprop="dateModified" datetime="2020-02-16T20:48:32+08:00">2020-02-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/刷题/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h1><hr>
+<p>输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</p>
+<hr>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a><strong>解题思路</strong></h1><hr>
+<p>本题的关键在于在中序遍历序列中找到根节点的位置，然后就可以根据根节点的位置再将其分为左子树和右子树，最后进行迭代。</p>
+<hr>
+<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h1><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for binary tree</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    TreeNode* reConstructBinaryTree(vector&lt;int&gt; pre,vector&lt;int&gt; vin) &#123;</span><br><span class="line">        if(pre.size()==0)</span><br><span class="line">            return NULL;</span><br><span class="line">        TreeNode* Head = new TreeNode(pre[0]);</span><br><span class="line">        vector&lt;int&gt; pre_left,pre_right,vin_left,vin_right;</span><br><span class="line">        int base;</span><br><span class="line">        for(int i=0;i&lt;vin.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(vin[i] == pre[0])</span><br><span class="line">            &#123;</span><br><span class="line">                base = i;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int j=0;j&lt;base;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            pre_left.push_back(pre[j+1]);</span><br><span class="line">            vin_left.push_back(vin[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        for(int j=base+1;j&lt;vin.size();j++)</span><br><span class="line">        &#123;</span><br><span class="line">            pre_right.push_back(pre[j]);</span><br><span class="line">            vin_right.push_back(vin[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Head-&gt;left=reConstructBinaryTree(pre_left,vin_left);</span><br><span class="line">        Head-&gt;right=reConstructBinaryTree(pre_right,vin_right);</span><br><span class="line">        </span><br><span class="line">        return Head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="LeetCode练习（树）：94-二叉树的中序遍历"><a href="#LeetCode练习（树）：94-二叉树的中序遍历" class="headerlink" title="LeetCode练习（树）：94.二叉树的中序遍历"></a><strong>LeetCode练习（树）：94.二叉树的中序遍历</strong></h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<p>给定一个二叉树，返回它的中序遍历。<br>示例：输入[1,null,2,3]，输出[1,3,2]</p>
+<hr>
+<h2 id="实现代码-1"><a href="#实现代码-1" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<p>思路：</p>
+<ol>
+<li><p>二叉树的遍历用<em>递归</em>实现起来比较简单，以该题中序遍历来说：（同样对于先序遍历和后序遍历只需要改变代码次序即可。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">private:</span><br><span class="line">    vector&lt;int&gt; res;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        if(root==NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            return res;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(root-&gt;left != NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            inorderTraversal(root-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        res.push_back(root-&gt;val);</span><br><span class="line">        if(root-&gt;right != NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            inorderTraversal(root-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        return res;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果想用<em>迭代</em>实现则相对比较复杂：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        stack&lt;TreeNode*&gt; s;</span><br><span class="line">        vector&lt;int&gt; res;</span><br><span class="line"></span><br><span class="line">        TreeNode* ptr=root;</span><br><span class="line">        while(ptr || s.size())</span><br><span class="line">        &#123;</span><br><span class="line">            while(ptr)</span><br><span class="line">            &#123;</span><br><span class="line">                s.push(ptr);</span><br><span class="line">                ptr=ptr-&gt;left;</span><br><span class="line">            &#125;</span><br><span class="line">            ptr=s.top();</span><br><span class="line">            s.pop();</span><br><span class="line">            res.push_back(ptr-&gt;val);</span><br><span class="line">            ptr=ptr-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><em>用迭代法实现先序遍历</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        stack&lt;TreeNode*&gt; s;</span><br><span class="line">        vector&lt;int&gt; res;</span><br><span class="line"></span><br><span class="line">        TreeNode* ptr=root;</span><br><span class="line">        while(ptr || s.size())</span><br><span class="line">        &#123;</span><br><span class="line">            while(ptr)</span><br><span class="line">            &#123;</span><br><span class="line">                s.push(ptr-&gt;right);</span><br><span class="line">                res.push_back(ptr-&gt;val);</span><br><span class="line">                ptr=ptr-&gt;left;</span><br><span class="line">            &#125;</span><br><span class="line">            ptr=s.top();</span><br><span class="line">            s.pop();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><em>用迭代法实现后序遍历</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;</span><br><span class="line">        stack&lt;TreeNode*&gt; s;</span><br><span class="line">        vector&lt;int&gt; res;</span><br><span class="line"></span><br><span class="line">        TreeNode* ptr=root;</span><br><span class="line">        while(ptr || s.size())</span><br><span class="line">        &#123;</span><br><span class="line">            while(ptr)</span><br><span class="line">            &#123;</span><br><span class="line">                s.push(ptr-&gt;right);</span><br><span class="line">                res.push_back(ptr-&gt;val);</span><br><span class="line">                ptr=ptr-&gt;left;</span><br><span class="line">            &#125;</span><br><span class="line">            ptr=s.top();</span><br><span class="line">            s.pop();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        reverse(res.begin(),res.end());</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h1 id="LeetCode练习（树）：98-验证二叉搜索树"><a href="#LeetCode练习（树）：98-验证二叉搜索树" class="headerlink" title="LeetCode练习（树）：98.验证二叉搜索树"></a><strong>LeetCode练习（树）：98.验证二叉搜索树</strong></h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
+<hr>
+<h2 id="实现代码-2"><a href="#实现代码-2" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<p>本题用递归实现，需要注意在遍历树的同时需要保留节点的上界和下界，不仅需要与子节点的值比较，还要与上下界的值比较。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool compare(TreeNode* root,long min,long max)</span><br><span class="line">    &#123;</span><br><span class="line">    	if(root == NULL)</span><br><span class="line">    	&#123;</span><br><span class="line">    		return true;</span><br><span class="line">    	&#125;</span><br><span class="line">    	if(root-&gt;val &lt;= min || root-&gt;val &gt;= max)</span><br><span class="line">    	&#123;</span><br><span class="line">    		return false;</span><br><span class="line">    	&#125;</span><br><span class="line">    	return compare(root-&gt;left,min,root-&gt;val) &amp;&amp; compare(root-&gt;right,root-&gt;val,max);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bool isValidBST(struct TreeNode* root)&#123;</span><br><span class="line">      return compare(root,LONG_MIN,LONG_MAX);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="LeetCode练习（树）：100-相同的树"><a href="#LeetCode练习（树）：100-相同的树" class="headerlink" title="LeetCode练习（树）：100.相同的树"></a><strong>LeetCode练习（树）：100.相同的树</strong></h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<p>给定两个二叉树，编写一个函数来检验他们是否相同。如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。</p>
+<hr>
+<h2 id="实现代码-3"><a href="#实现代码-3" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
+<p>简单的递归实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool isSameTree(TreeNode* p, TreeNode* q) &#123;</span><br><span class="line">        if(p==NULL &amp;&amp; q==NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;else if((p==NULL &amp;&amp; q!=NULL) || (p!=NULL &amp;&amp; q==NULL))</span><br><span class="line">        &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;else</span><br><span class="line">        &#123;</span><br><span class="line">            if(p-&gt;val != q-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return isSameTree(p-&gt;left,q-&gt;left) &amp;&amp; isSameTree(p-&gt;right,q-&gt;right);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/剑指Offer/" rel="tag"># -剑指Offer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/14/剑指Offer——03.从尾到头打印链表/" rel="next" title="剑指Offer——03.从尾到头打印链表">
+                <i class="fa fa-chevron-left"></i> 剑指Offer——03.从尾到头打印链表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myavatar.png" alt="Xuxuejie">
+            
+              <p class="site-author-name" itemprop="name">Xuxuejie</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">3.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（树）：94-二叉树的中序遍历"><span class="nav-number">4.</span> <span class="nav-text">LeetCode练习（树）：94.二叉树的中序遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-1"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-1"><span class="nav-number">4.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（树）：98-验证二叉搜索树"><span class="nav-number">5.</span> <span class="nav-text">LeetCode练习（树）：98.验证二叉搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-2"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-2"><span class="nav-number">5.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（树）：100-相同的树"><span class="nav-number">6.</span> <span class="nav-text">LeetCode练习（树）：100.相同的树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-3"><span class="nav-number">6.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-3"><span class="nav-number">6.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuxuejie</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
