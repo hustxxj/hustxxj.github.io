@@ -99,7 +99,7 @@
   <meta name="description" content="题目描述 输入一个链表，反转链表后，输出新链表的表头。  解题思路 常规的利用双指针实现  实现代码 12345678910111213141516171819202122232425262728/*struct ListNode &amp;#123;	int val;	struct ListNode *next;	ListNode(int x) :			val(x), next(NULL) &amp;#123;">
 <meta name="keywords" content="-剑指Offer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="剑指Offer——15.反转链表">
+<meta property="og:title" content="剑指Offer——15.反转链表（53-66-994）">
 <meta property="og:url" content="http://hustxxj.github.io/2020/03/04/剑指Offer——15.反转链表/index.html">
 <meta property="og:site_name" content="江江的小跟班.">
 <meta property="og:description" content="题目描述 输入一个链表，反转链表后，输出新链表的表头。  解题思路 常规的利用双指针实现  实现代码 12345678910111213141516171819202122232425262728/*struct ListNode &amp;#123;	int val;	struct ListNode *next;	ListNode(int x) :			val(x), next(NULL) &amp;#123;">
@@ -107,9 +107,9 @@
 <meta property="og:image" content="http://hustxxj.github.io/2020/03/04/剑指Offer——15.反转链表/15_66.jpg">
 <meta property="og:image" content="http://hustxxj.github.io/2020/03/04/剑指Offer——15.反转链表/15_994.jpg">
 <meta property="og:image" content="http://hustxxj.github.io/2020/03/04/剑指Offer——15.反转链表/15_53.jpg">
-<meta property="og:updated_time" content="2020-03-04T15:06:55.718Z">
+<meta property="og:updated_time" content="2020-03-07T13:26:33.112Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="剑指Offer——15.反转链表">
+<meta name="twitter:title" content="剑指Offer——15.反转链表（53-66-994）">
 <meta name="twitter:description" content="题目描述 输入一个链表，反转链表后，输出新链表的表头。  解题思路 常规的利用双指针实现  实现代码 12345678910111213141516171819202122232425262728/*struct ListNode &amp;#123;	int val;	struct ListNode *next;	ListNode(int x) :			val(x), next(NULL) &amp;#123;">
 <meta name="twitter:image" content="http://hustxxj.github.io/2020/03/04/剑指Offer——15.反转链表/15_66.jpg">
 
@@ -131,7 +131,7 @@
   };
 </script>
 
-  <title>剑指Offer——15.反转链表 | 江江的小跟班.</title>
+  <title>剑指Offer——15.反转链表（53-66-994） | 江江的小跟班.</title>
   
 
 
@@ -381,7 +381,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">剑指Offer——15.反转链表
+          <h1 class="post-title" itemprop="name headline">剑指Offer——15.反转链表（53-66-994）
 
               
             
@@ -407,12 +407,24 @@
                 
               
 
-              <time title="创建时间：2020-03-04 15:02:12 / 修改时间：23:06:55" itemprop="dateCreated datePublished" datetime="2020-03-04T15:02:12+08:00">2020-03-04</time>
+              <time title="创建时间：2020-03-04 15:02:12" itemprop="dateCreated datePublished" datetime="2020-03-04T15:02:12+08:00">2020-03-04</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-07 21:26:33" itemprop="dateModified" datetime="2020-03-07T21:26:33+08:00">2020-03-07</time>
               
             
           </span>
@@ -473,7 +485,7 @@
 <h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h1><hr>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">struct ListNode &#123;</span><br><span class="line">	int val;</span><br><span class="line">	struct ListNode *next;</span><br><span class="line">	ListNode(int x) :</span><br><span class="line">			val(x), next(NULL) &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;*/</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    ListNode* ReverseList(ListNode* pHead) &#123;</span><br><span class="line">        if(pHead==nullptr || pHead-&gt;next==nullptr)</span><br><span class="line">            return pHead;</span><br><span class="line">        </span><br><span class="line">        ListNode* pre_node=pHead;</span><br><span class="line">        ListNode* bak_node=NULL;</span><br><span class="line">        </span><br><span class="line">        while(pre_node-&gt;next)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* temp_node=pre_node-&gt;next;</span><br><span class="line">            pre_node-&gt;next=bak_node;</span><br><span class="line">            bak_node=pre_node;</span><br><span class="line">            pre_node=temp_node;</span><br><span class="line">        &#125;</span><br><span class="line">        pre_node-&gt;next=bak_node;</span><br><span class="line">        return pre_node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <hr>
-<h1 id="LeetCode练习（数组）："><a href="#LeetCode练习（数组）：" class="headerlink" title="LeetCode练习（数组）："></a><strong>LeetCode练习（数组）：</strong></h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
+<h1 id="LeetCode练习（数组）：66-加一"><a href="#LeetCode练习（数组）：66-加一" class="headerlink" title="LeetCode练习（数组）：66.加一"></a><strong>LeetCode练习（数组）：66.加一</strong></h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h2><hr>
 <p><code><img src="/2020/03/04/剑指Offer——15.反转链表/15_66.jpg" title="示例图"></code></p>
 <hr>
 <h2 id="实现代码-1"><a href="#实现代码-1" class="headerlink" title="实现代码"></a><strong>实现代码</strong></h2><hr>
@@ -548,8 +560,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/03/剑指Offer——14.链表中倒数第K个结点/" rel="next" title="剑指Offer——14.链表中倒数第K个结点">
-                <i class="fa fa-chevron-left"></i> 剑指Offer——14.链表中倒数第K个结点
+              <a href="/2020/03/03/剑指Offer——14.链表中倒数第K个结点/" rel="next" title="剑指Offer——14.链表中倒数第K个结点（14-26-27）">
+                <i class="fa fa-chevron-left"></i> 剑指Offer——14.链表中倒数第K个结点（14-26-27）
               </a>
             
           </div>
@@ -558,8 +570,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/05/剑指Offer——16.合并两个排序的链表/" rel="prev" title="剑指Offer——16.合并两个排序的链表">
-                剑指Offer——16.合并两个排序的链表 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/05/剑指Offer——16.合并两个排序的链表/" rel="prev" title="剑指Offer——16.合并两个排序的链表（70-121-1103）">
+                剑指Offer——16.合并两个排序的链表（70-121-1103） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -722,7 +734,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">3.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（数组）："><span class="nav-number">4.</span> <span class="nav-text">LeetCode练习（数组）：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-1"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-1"><span class="nav-number">4.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（广度优先搜索）：994-腐烂的橘子"><span class="nav-number">5.</span> <span class="nav-text">LeetCode练习（广度优先搜索）：994.腐烂的橘子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-2"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-2"><span class="nav-number">5.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（数组-动态规划）：53-最大子序和"><span class="nav-number">6.</span> <span class="nav-text">LeetCode练习（数组/动态规划）：53.最大子序和</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-3"><span class="nav-number">6.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-3"><span class="nav-number">6.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题思路"><span class="nav-number">2.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">3.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（数组）：66-加一"><span class="nav-number">4.</span> <span class="nav-text">LeetCode练习（数组）：66.加一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-1"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-1"><span class="nav-number">4.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（广度优先搜索）：994-腐烂的橘子"><span class="nav-number">5.</span> <span class="nav-text">LeetCode练习（广度优先搜索）：994.腐烂的橘子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-2"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-2"><span class="nav-number">5.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode练习（数组-动态规划）：53-最大子序和"><span class="nav-number">6.</span> <span class="nav-text">LeetCode练习（数组/动态规划）：53.最大子序和</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述-3"><span class="nav-number">6.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码-3"><span class="nav-number">6.2.</span> <span class="nav-text">实现代码</span></a></li></ol></li></ol></div>
             
 
           </div>
